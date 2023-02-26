@@ -2,13 +2,14 @@ REGISTRY=ghcr.io
 IMAGE=yitsushi/vault-client
 TAG=latest
 BUILDX_BUILDER=container
+NAME=base
 
 .PHONY: build
 build: buildx-context
 	docker buildx build \
 		--platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
 		--build-arg VAULT_VERSION=$(TAG) \
-		--tag "$(REGISTRY)/$(IMAGE):$(TAG)" \
+		--tag "$(REGISTRY)/$(IMAGE)/$(NAME):$(TAG)" \
 		--builder "$(BUILDX_BUILDER)" .
 
 .PHONY: push
@@ -17,8 +18,8 @@ push: build
 		--platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
 		--push \
 		--build-arg VAULT_VERSION=$(TAG) \
-		--tag "$(REGISTRY)/$(IMAGE):$(TAG)" \
-		--tag "$(REGISTRY)/$(IMAGE):latest" \
+		--tag "$(REGISTRY)/$(IMAGE)/$(NAME):$(TAG)" \
+		--tag "$(REGISTRY)/$(IMAGE)/$(NAME):latest" \
 		--builder "$(BUILDX_BUILDER)" .
 
 .PHONY: buildx-context

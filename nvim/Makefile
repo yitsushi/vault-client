@@ -8,9 +8,9 @@ NAME=nvim
 build: buildx-context
 	docker buildx build \
 		--platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
-		--build-arg BASE_IMAGE="$(REGISTRY)/$(IMAGE)" \
+		--build-arg BASE_IMAGE="$(REGISTRY)/$(IMAGE)/base" \
 		--build-arg VAULT_VERSION="$(TAG)" \
-		--tag "$(REGISTRY)/$(IMAGE):$(NAME)-$(TAG)" \
+		--tag "$(REGISTRY)/$(IMAGE)/$(NAME):$(TAG)" \
 		--builder "$(BUILDX_BUILDER)" .
 
 .PHONY: push
@@ -18,10 +18,10 @@ push: build
 	docker buildx build \
 		--platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
 		--push \
-		--build-arg BASE_IMAGE="$(REGISTRY)/$(IMAGE)" \
+		--build-arg BASE_IMAGE="$(REGISTRY)/$(IMAGE)/base" \
 		--build-arg VAULT_VERSION="$(TAG)" \
-		--tag "$(REGISTRY)/$(IMAGE):$(NAME)-$(TAG)" \
-		--tag "$(REGISTRY)/$(IMAGE):$(NAME)" \
+		--tag "$(REGISTRY)/$(IMAGE)/$(NAME):$(TAG)" \
+		--tag "$(REGISTRY)/$(IMAGE)/$(NAME):latest" \
 		--builder "$(BUILDX_BUILDER)" .
 
 .PHONY: buildx-context

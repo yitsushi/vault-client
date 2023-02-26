@@ -1,8 +1,11 @@
 from --platform=$BUILDPLATFORM alpine:3.17
 
-ARG VAULT_VERSION=unknown
-ARG USER_ID=1000
-ARG GROUP_ID=1000
+label org.opencontainers.image.source=https://github.com/yitsushi/vault-client
+
+arg VAULT_VERSION=unknown
+arg USER_ID=1000
+arg GROUP_ID=1000
+
 
 # Create vault user and group
 run addgroup vault -g "${GROUP_ID}" \
